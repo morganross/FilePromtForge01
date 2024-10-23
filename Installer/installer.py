@@ -1,3 +1,14 @@
+#!/usr/bin/env python3
+"""
+GPT Processor: A versatile tool to process text files using OpenAI ChatGPT API.
+
+Features:
+- Combine multiple prompt files into a single system prompt.
+- Process multiple input files concurrently.
+- Save AI-generated responses to output directory.
+- Comprehensive logging to console and optional log file.
+"""
+
 import os
 import argparse
 import logging
@@ -42,7 +53,7 @@ def setup_logger(log_level=logging.INFO, log_file=None):
 def get_base_directory():
     if getattr(sys, 'frozen', False):
         # If the application is run as a bundle (PyInstaller)
-        base_dir = sys._MEIPASS
+        base_dir = os.path.dirname(sys.executable)
     else:
         # If the application is run as a script
         base_dir = os.path.dirname(os.path.abspath(__file__))
