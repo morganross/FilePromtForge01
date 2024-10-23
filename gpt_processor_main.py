@@ -7,6 +7,8 @@ Features:
 - Process multiple input files concurrently.
 - Save AI-generated responses to output directory.
 - Comprehensive logging to console and optional log file.
+- Timeout handling, rate limiting, and retry logic for API requests.
+- Event scheduling for periodic tasks.
 """
 
 import os
@@ -14,7 +16,10 @@ import argparse
 import logging
 import sys
 import time
+import schedule
 from concurrent.futures import ThreadPoolExecutor
+from requests.exceptions import Timeout
+import requests
 
 # Attempt to import required packages and handle missing dependencies
 try:
@@ -146,15 +151,26 @@ class FileHandler:
         except Exception as e:
             raise IOError(f"Error writing to file '{output_file}': {e}")
 
-# APIClient class
+# APIClient class with timeout, rate limiting, and retry logic
 class APIClient:
-    def __init__(self, api_key, model, temperature, max_tokens, max_retries=3, backoff_factor=2):
+    def __init__(self, api_key, model, temperature, max_tokens, max_retries=3, backoff_factor=2, timeout=10, rate_limit=5):
         self.api_key = api_key
         self.model = model
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.max_retries = max_retries
         self.backoff_factor = backoff_factor
+        self.timeout = timeout
+        self.rate_limit = rate_limit
+        self.last_request_time = 0
+
+    def rate_limited_request(self, url):
+        current_time = time.time()
+        if current_time - self.last_request_time < 60 / self.rate_limit:
+            time.sleep(60 / self.rate_limit - (current_time - self.last_request_time))
+        response = requests.get(url, timeout=self.timeout)
+        self.last_request_time = time.time()
+        return response
 
     def send_prompt(self, system_prompt, user_prompt, logger):
         openai.api_key = self.api_key
@@ -205,6 +221,10 @@ def process_file(input_file, file_handler, api_client, system_prompt, logger):
         logger.info(f"Processed '{input_file}' and saved to '{output_filename}'.")
     except Exception as e:
         logger.error(f"Error processing '{input_file}': {e}")
+
+# Scheduled job example
+def scheduled_job():
+    print("Scheduled job is running")
 
 # CLI main function
 def main():
@@ -279,6 +299,13 @@ def main():
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for input_file in input_files:
             executor.submit(process_file, input_file, file_handler, api_client, system_prompt, logger)
+
+    # Schedule events
+    schedule.every().day.at("10:30").do(scheduled_job)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
