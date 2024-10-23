@@ -1,14 +1,3 @@
-#!/usr/bin/env python3
-"""
-GPT Processor: A versatile tool to process text files using OpenAI ChatGPT API.
-
-Features:
-- Combine multiple prompt files into a single system prompt.
-- Process multiple input files concurrently.
-- Save AI-generated responses to output directory.
-- Comprehensive logging to console and optional log file.
-"""
-
 import os
 import argparse
 import logging
@@ -27,7 +16,6 @@ except ImportError as e:
     print("Please install all dependencies using:")
     print("    pip install openai PyYAML python-dotenv")
     sys.exit(1)
-
 
 # Setting up the logger
 def setup_logger(log_level=logging.INFO, log_file=None):
@@ -50,20 +38,28 @@ def setup_logger(log_level=logging.INFO, log_file=None):
 
     return logger
 
+# Determine the base directory
+def get_base_directory():
+    if getattr(sys, 'frozen', False):
+        # If the application is run as a bundle (PyInstaller)
+        base_dir = sys._MEIPASS
+    else:
+        # If the application is run as a script
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+    return base_dir
 
 # Ensure directory exists
 def ensure_directory(directory):
     os.makedirs(directory, exist_ok=True)
 
-
 # Configuration class
 class Config:
-    def __init__(self, config_file=None):
+    def __init__(self, config_file=None, base_dir=None):
         load_dotenv()  # Load environment variables from .env if present
         default_config = {
-            'prompts_dir': './prompts/',
-            'input_dir': './input/',
-            'output_dir': './output/',
+            'prompts_dir': os.path.join(base_dir, 'prompts'),
+            'input_dir': os.path.join(base_dir, 'input'),
+            'output_dir': os.path.join(base_dir, 'output'),
             'openai': {
                 'api_key': os.getenv('OPENAI_API_KEY'),
                 'model': 'gpt-4',
@@ -77,9 +73,9 @@ class Config:
             with open(config_file, 'r') as file:
                 user_config = yaml.safe_load(file)
             # Merge user_config into default_config
-            self.prompts_dir = user_config.get('prompts_dir', default_config['prompts_dir'])
-            self.input_dir = user_config.get('input_dir', default_config['input_dir'])
-            self.output_dir = user_config.get('output_dir', default_config['output_dir'])
+            self.prompts_dir = os.path.join(base_dir, user_config.get('prompts_dir', 'prompts'))
+            self.input_dir = os.path.join(base_dir, user_config.get('input_dir', 'input'))
+            self.output_dir = os.path.join(base_dir, user_config.get('output_dir', 'output'))
             self.openai = self.OpenAI(user_config.get('openai', {}))
         else:
             self.prompts_dir = default_config['prompts_dir']
@@ -95,7 +91,6 @@ class Config:
             self.model = config.get('model', 'gpt-4')
             self.temperature = config.get('temperature', 0.7)
             self.max_tokens = config.get('max_tokens', 1500)
-
 
 # PromptManager class
 class PromptManager:
@@ -117,7 +112,6 @@ class PromptManager:
                 self.cache[prompt_file] = prompt
                 combined_prompt += prompt + separator
         return combined_prompt.strip()
-
 
 # FileHandler class
 class FileHandler:
@@ -150,7 +144,6 @@ class FileHandler:
             return output_file
         except Exception as e:
             raise IOError(f"Error writing to file '{output_file}': {e}")
-
 
 # APIClient class
 class APIClient:
@@ -191,7 +184,6 @@ class APIClient:
                 logger.error("Max retries reached. Failed to get a response from OpenAI API.")
                 raise
 
-
 # Function to create default prompt file if not exists
 def create_default_prompt(prompts_dir):
     default_prompt_path = os.path.join(prompts_dir, 'standard_prompt.txt')
@@ -203,7 +195,6 @@ def create_default_prompt(prompts_dir):
         with open(default_prompt_path, 'w', encoding='utf-8') as file:
             file.write(default_prompt)
 
-
 # Main processing function
 def process_file(input_file, file_handler, api_client, system_prompt, logger):
     try:
@@ -213,7 +204,6 @@ def process_file(input_file, file_handler, api_client, system_prompt, logger):
         logger.info(f"Processed '{input_file}' and saved to '{output_filename}'.")
     except Exception as e:
         logger.error(f"Error processing '{input_file}': {e}")
-
 
 # CLI main function
 def main():
@@ -229,6 +219,9 @@ def main():
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging.')
     args = parser.parse_args()
 
+    # Determine base directory
+    base_dir = get_base_directory()
+
     # Set log level based on verbosity
     log_level = logging.DEBUG if args.verbose else logging.INFO
 
@@ -237,7 +230,7 @@ def main():
 
     # Load configuration
     try:
-        config = Config(args.config)
+        config = Config(args.config, base_dir=base_dir)
     except Exception as e:
         logger.error(e)
         sys.exit(1)
@@ -285,7 +278,6 @@ def main():
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for input_file in input_files:
             executor.submit(process_file, input_file, file_handler, api_client, system_prompt, logger)
-
 
 if __name__ == '__main__':
     main()
