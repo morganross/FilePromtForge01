@@ -5,3 +5,20 @@
 2024-10-23 22:34:51,378 - DEBUG - Adding install button
 2024-10-23 22:34:51,378 - DEBUG - Adding test button
 2024-10-23 22:34:51,379 - DEBUG - Starting main GUI loop
+2024-10-23 22:34:53,664 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 22:34:53,664 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 22:34:53,773 - DEBUG - Command output: 
+2024-10-23 22:34:53,773 - DEBUG - Command error (if any): 2024-10-23 22:34:53,757 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-23 22:34:53,757 - INFO - Created necessary directories.
+2024-10-23 22:34:53,757 - INFO - Created default prompt file at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-23 22:34:53,757 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-23 22:34:53,757 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-23 22:34:56,610 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 22:34:56,610 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt', '--output_dir', 'C:\\upp\\jimmy\\output']
+2024-10-23 22:34:57,819 - ERROR - Test failed: Command '['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt', '--output_dir', 'C:\\upp\\jimmy\\output']' returned non-zero exit status 2.
+2024-10-23 22:34:57,819 - DEBUG - Test command output: 
+2024-10-23 22:34:57,819 - DEBUG - Test command error: usage: gpt_processor_main.py [-h] [--config CONFIG]
+gpt_processor_main.py: error: unrecognized arguments: --prompt C:\upp\jimmy\prompts\standard_prompt.txt --output_dir C:\upp\jimmy\output
+
