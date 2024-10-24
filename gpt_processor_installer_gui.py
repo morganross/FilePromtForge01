@@ -8,6 +8,8 @@ from datetime import datetime
 # Default values
 default_install_dir = "C:\\upp\\jimmy"
 default_executable_path = "C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py"
+default_prompt_file = "C:\\upp\\jimmy\\prompts\\standard_prompt.txt"
+default_output_dir = "C:\\upp\\jimmy\\output"
 
 # Create a directory named after the current time
 current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -37,6 +39,42 @@ def run_installer(install_dir, executable_path):
         logging.error(error_message)
         logging.debug(f"Command output: {e.stdout}")
         logging.debug(f"Command error: {e.stderr}")
+        messagebox.showerror("Error", error_message)
+
+def run_test(install_dir, executable_path, prompt_file, output_dir):
+    logging.debug(f"Starting run_test with install_dir={install_dir}, executable_path={executable_path}, prompt_file={prompt_file}, output_dir={output_dir}")
+    try:
+        # Read the content of the prompt file
+        with open(prompt_file, 'r', encoding='utf-8') as file:
+            prompt_content = file.read()
+        
+        # Construct the command to run the main script
+        command = [
+            'python', executable_path,
+            '--config', os.path.join(install_dir, 'default_config.yaml'),
+            '--prompt_file', prompt_file
+        ]
+        logging.debug(f"Running test command: {command}")
+        result = subprocess.run(command, check=True, capture_output=True, text=True)
+        logging.debug(f"Test command output: {result.stdout}")
+        logging.debug(f"Test command error (if any): {result.stderr}")
+
+        # Save the response to the output directory
+        output_file = os.path.join(output_dir, 'test_output.txt')
+        with open(output_file, 'w', encoding='utf-8') as file:
+            file.write(result.stdout)
+        
+        # Display the response in the GUI
+        messagebox.showinfo("Test Response", result.stdout)
+    except subprocess.CalledProcessError as e:
+        error_message = f"Test failed: {e}"
+        logging.error(error_message)
+        logging.debug(f"Test command output: {e.stdout}")
+        logging.debug(f"Test command error: {e.stderr}")
+        messagebox.showerror("Error", error_message)
+    except Exception as e:
+        error_message = f"An error occurred: {e}"
+        logging.error(error_message)
         messagebox.showerror("Error", error_message)
 
 def select_install_dir(entry):
@@ -80,6 +118,11 @@ def create_gui():
     logging.debug("Adding install button")
     install_button = tk.Button(root, text="Install", command=lambda: run_installer(install_dir_entry.get(), executable_path_entry.get()))
     install_button.pack(pady=20)
+
+    # Test button
+    logging.debug("Adding test button")
+    test_button = tk.Button(root, text="Test Installation", command=lambda: run_test(install_dir_entry.get(), executable_path_entry.get(), default_prompt_file, default_output_dir))
+    test_button.pack(pady=20)
 
     logging.debug("Starting main GUI loop")
     root.mainloop()
