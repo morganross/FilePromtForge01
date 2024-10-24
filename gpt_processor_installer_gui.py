@@ -25,8 +25,7 @@ def run_installer(install_dir, prompt_file, executable_path):
     try:
         command = [
             'python', 'gpt_processor_installer.py',
-            '--install-dir', install_dir,
-            '--prompt-file', prompt_file,
+            '--install_dir', install_dir,
             '--main_executable', executable_path
         ]
         logging.debug(f"Running command: {command}")
