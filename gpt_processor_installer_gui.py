@@ -44,11 +44,32 @@ def run_installer(install_dir, executable_path):
 def run_test(install_dir, executable_path, prompt_file, output_dir):
     logging.debug(f"Starting run_test with install_dir={install_dir}, executable_path={executable_path}, prompt_file={prompt_file}, output_dir={output_dir}")
     try:
+        input_dir = os.path.join(install_dir, 'input')
+        logging.debug(f"Input directory: {input_dir}")
+        
+        # Check if input directory exists
+        if not os.path.exists(input_dir):
+            logging.error(f"Input directory does not exist: {input_dir}")
+            messagebox.showerror("Error", f"Input directory does not exist: {input_dir}")
+            return
+        
+        # Log the contents of the input directory
+        input_files = os.listdir(input_dir)
+        logging.debug(f"Input directory contents: {input_files}")
+        
+        # Check if input directory is empty
+        if not input_files:
+            logging.error("Input directory is empty.")
+            messagebox.showerror("Error", "Input directory is empty.")
+            return
+
         # Construct the command to run the main script
         command = [
             'python', executable_path,
             '--config', os.path.join(install_dir, 'default_config.yaml'),
-            '--prompt', prompt_file
+            '--prompt', prompt_file,
+            '--input_dir', input_dir,
+            '--output_dir', output_dir
         ]
         logging.debug(f"Running test command: {command}")
         result = subprocess.run(command, check=True, capture_output=True, text=True)
