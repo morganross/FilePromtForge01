@@ -142,6 +142,7 @@ def detect_os():
 def main():
     parser = argparse.ArgumentParser(description='GPT Processor Installer')
     parser.add_argument('--install_dir', type=str, default=None, help='Directory to install GPT Processor.')
+    parser.add_argument('--main_executable', type=str, required=True, help='Path to the main executable.')
     parser.add_argument('--add_to_path', action='store_true', help='Add the installation directory to system PATH.')
     parser.add_argument('--log_file', type=str, help='Path to the log file.')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging.')
@@ -180,14 +181,13 @@ def main():
     create_default_prompt(prompts_dir, logger)
 
     # Copy main executable
-    main_executable_source = os.path.abspath('gpt_processor_main.py')
+    main_executable_source = os.path.abspath(args.main_executable)
     main_executable_dest = os.path.join(install_dir, os.path.basename(main_executable_source))
     copy_main_executable(main_executable_source, install_dir, logger)
 
     # Create default configuration file
     create_default_config(install_dir, logger)
 
-    # comment
     # Add to system PATH if requested
     if args.add_to_path:
         os_type = detect_os()
