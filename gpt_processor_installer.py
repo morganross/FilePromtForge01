@@ -187,6 +187,7 @@ def main():
     # Create default configuration file
     create_default_config(install_dir, logger)
 
+    # comment
     # Add to system PATH if requested
     if args.add_to_path:
         os_type = detect_os()
