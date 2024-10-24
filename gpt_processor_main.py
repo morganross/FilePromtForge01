@@ -53,7 +53,8 @@ def setup_logger(log_level=logging.INFO, log_file=None):
 
 # Ensure directory exists
 def ensure_directory(directory):
-    os.makedirs(directory, exist_ok=True)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 # Configuration class
 class Config:
@@ -99,22 +100,21 @@ class Config:
 class PromptManager:
     def __init__(self, prompts_dir):
         self.prompts_dir = prompts_dir
-        self.cache = {}
 
-    def load_prompts(self, prompt_files, separator="\n\n"):
-        combined_prompt = ""
+    def load_prompts(self, prompt_files):
+        prompts = []
         for prompt_file in prompt_files:
-            if prompt_file in self.cache:
-                combined_prompt += self.cache[prompt_file] + separator
-                continue
-            full_path = os.path.join(self.prompts_dir, prompt_file)
-            if not os.path.isfile(full_path):
-                raise FileNotFoundError(f"Prompt file '{prompt_file}' not found in '{self.prompts_dir}'.")
-            with open(full_path, 'r', encoding='utf-8') as file:
-                prompt = file.read()
-                self.cache[prompt_file] = prompt
-                combined_prompt += prompt + separator
-        return combined_prompt.strip()
+            with open(os.path.join(self.prompts_dir, prompt_file), 'r', encoding='utf-8') as file:
+                prompts.append(file.read())
+        return "\n".join(prompts)
+
+    def load_prompts_from_dirs(self, prompt_dirs):
+        prompts = []
+        for prompt_dir in prompt_dirs:
+            for prompt_file in os.listdir(prompt_dir):
+                with open(os.path.join(prompt_dir, prompt_file), 'r', encoding='utf-8') as file:
+                    prompts.append(file.read())
+        return "\n".join(prompts)
 
 # FileHandler class
 class FileHandler:
@@ -123,30 +123,15 @@ class FileHandler:
         self.output_dir = output_dir
 
     def list_input_files(self):
-        return [
-            os.path.join(self.input_dir, f)
-            for f in os.listdir(self.input_dir)
-            if os.path.isfile(os.path.join(self.input_dir, f))
-        ]
+        return [f for f in os.listdir(self.input_dir) if os.path.isfile(os.path.join(self.input_dir, f))]
 
     def read_file(self, file_path):
-        try:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                return file.read()
-        except UnicodeDecodeError:
-            with open(file_path, 'r', encoding='latin-1') as file:
-                return file.read()
-        except Exception as e:
-            raise IOError(f"Error reading file '{file_path}': {e}")
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return file.read()
 
-    def write_output(self, input_file, content):
-        output_file = os.path.join(self.output_dir, os.path.basename(input_file))
-        try:
-            with open(output_file, 'w', encoding='utf-8') as file:
-                file.write(content)
-            return output_file
-        except Exception as e:
-            raise IOError(f"Error writing to file '{output_file}': {e}")
+    def write_file(self, file_path, content):
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(content)
 
 # APIClient class
 class APIClient:
@@ -200,13 +185,10 @@ def create_default_prompt(prompts_dir):
 
 # Main processing function
 def process_file(input_file, file_handler, api_client, system_prompt, logger):
-    try:
-        user_prompt = file_handler.read_file(input_file)
-        response = api_client.send_prompt(system_prompt, user_prompt, logger)
-        output_filename = file_handler.write_output(input_file, response)
-        logger.info(f"Processed '{input_file}' and saved to '{output_filename}'.")
-    except Exception as e:
-        logger.error(f"Error processing '{input_file}': {e}")
+    user_prompt = file_handler.read_file(input_file)
+    response = api_client.send_prompt(system_prompt, user_prompt, logger)
+    output_file = os.path.join(file_handler.output_dir, f"response_{os.path.basename(input_file)}")
+    file_handler.write_file(output_file, response)
 
 # CLI main function
 def main():
@@ -214,10 +196,16 @@ def main():
     parser.add_argument('--config', type=str, help='Path to configuration file.')
     parser.add_argument('--log_file', type=str, help='Path to log file.')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging.')
-
+    parser.add_argument('--prompt', type=str, nargs='+', help='List of prompt files.')
+    parser.add_argument('--prompt_dirs', type=str, nargs='+', help='List of directories containing prompt files.')
+    parser.add_argument('--input_dir', type=str, help='Directory for input files.')
+    parser.add_argument('--output_dir', type=str, help='Directory for output files.')
+    parser.add_argument('--model', type=str, help='OpenAI model to use.')
+    parser.add_argument('--temperature', type=float, help='Temperature setting for the OpenAI model.')
+    parser.add_argument('--max_tokens', type=int, help='Maximum number of tokens for the OpenAI model.')
     args = parser.parse_args()
 
-    # Set log level based on the argument, default to INFO if unspecified
+    # Set log level based on verbosity
     log_level = logging.DEBUG if args.verbose else logging.INFO
 
     # Setup logger
@@ -231,48 +219,42 @@ def main():
         sys.exit(1)
 
     # Override config with CLI arguments if provided
-    prompt_files = args.prompt if args.prompt else ['standard_prompt.txt']
+    prompt_files = args.prompt if args.prompt else []
+    prompt_dirs = args.prompt_dirs if args.prompt_dirs else []
+    if not prompt_files and not prompt_dirs:
+        prompt_files = ['standard_prompt.txt']
     input_dir = args.input_dir if args.input_dir else config.input_dir
     output_dir = args.output_dir if args.output_dir else config.output_dir
     model = args.model if args.model else config.openai.model
     temperature = args.temperature if args.temperature else config.openai.temperature
     max_tokens = args.max_tokens if args.max_tokens else config.openai.max_tokens
 
-    # Ensure directories exist
-    ensure_directory(output_dir)
+    # Ensure necessary directories exist
     ensure_directory(input_dir)
-    ensure_directory(config.prompts_dir)
-
-    # Create default prompt if not exists
-    create_default_prompt(config.prompts_dir)
-
-    # Initialize components
-    prompt_manager = PromptManager(config.prompts_dir)
-    file_handler = FileHandler(input_dir, output_dir)
-    try:
-        api_client = APIClient(config.openai.api_key, model, temperature, max_tokens)
-    except Exception as e:
-        logger.error(e)
-        sys.exit(1)
+    ensure_directory(output_dir)
 
     # Load and combine prompts
-    try:
-        system_prompt = prompt_manager.load_prompts(prompt_files)
-    except Exception as e:
-        logger.error(e)
-        sys.exit(1)
+    prompt_manager = PromptManager(config.prompts_dir)
+    system_prompt = ""
+    if prompt_files:
+        system_prompt += prompt_manager.load_prompts(prompt_files)
+    if prompt_dirs:
+        system_prompt += prompt_manager.load_prompts_from_dirs(prompt_dirs)
 
-    # Process input files
+    # Initialize file handler and API client
+    file_handler = FileHandler(input_dir, output_dir)
+    api_client = APIClient(config.openai.api_key, model, temperature, max_tokens)
+
+    # List input files
     input_files = file_handler.list_input_files()
     if not input_files:
-        logger.info(f"No input files found in '{input_dir}'.")
+        logger.info("No input files found. Exiting.")
         sys.exit(0)
 
-    # Use ThreadPoolExecutor for concurrent processing
-    max_workers = min(5, len(input_files))  # Limit number of threads
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    # Process files concurrently
+    with ThreadPoolExecutor(max_workers=min(5, len(input_files))) as executor:
         for input_file in input_files:
-            executor.submit(process_file, input_file, file_handler, api_client, system_prompt, logger)
+            executor.submit(process_file, os.path.join(input_dir, input_file), file_handler, api_client, system_prompt, logger)
 
 if __name__ == "__main__":
     main()
