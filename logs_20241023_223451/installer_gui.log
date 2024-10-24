@@ -1,0 +1,7 @@
+2024-10-23 22:34:51,317 - DEBUG - Starting the installer GUI script
+2024-10-23 22:34:51,317 - DEBUG - Creating main GUI window
+2024-10-23 22:34:51,376 - DEBUG - Adding install directory input field
+2024-10-23 22:34:51,378 - DEBUG - Adding executable path input field
+2024-10-23 22:34:51,378 - DEBUG - Adding install button
+2024-10-23 22:34:51,378 - DEBUG - Adding test button
+2024-10-23 22:34:51,379 - DEBUG - Starting main GUI loop
