@@ -7,7 +7,6 @@ from datetime import datetime
 
 # Default values
 default_install_dir = "C:\\upp\\jimmy"
-default_prompt_file = "default_prompt.txt"
 default_executable_path = "C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py"
 
 # Create a directory named after the current time
@@ -20,8 +19,8 @@ log_file = os.path.join(log_dir, 'installer_gui.log')
 logging.basicConfig(filename=log_file, level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-def run_installer(install_dir, prompt_file, executable_path):
-    logging.debug(f"Starting run_installer with install_dir={install_dir}, prompt_file={prompt_file}, executable_path={executable_path}")
+def run_installer(install_dir, executable_path):
+    logging.debug(f"Starting run_installer with install_dir={install_dir}, executable_path={executable_path}")
     try:
         command = [
             'python', 'gpt_processor_installer.py',
@@ -48,14 +47,6 @@ def select_install_dir(entry):
         entry.delete(0, tk.END)
         entry.insert(0, path)
 
-def select_prompt_file(entry):
-    logging.debug("Opening file selection dialog for prompt file")
-    path = filedialog.askopenfilename(initialdir=".", filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
-    logging.debug(f"Selected prompt file: {path}")
-    if path:
-        entry.delete(0, tk.END)
-        entry.insert(0, path)
-
 def select_executable_path(entry):
     logging.debug("Opening file selection dialog for executable path")
     path = filedialog.askopenfilename(initialdir=".", filetypes=[("Executable files", "*.exe"), ("All files", "*.*")])
@@ -77,14 +68,6 @@ def create_gui():
     install_dir_entry.insert(0, default_install_dir)
     tk.Button(root, text="Browse...", command=lambda: select_install_dir(install_dir_entry)).pack(pady=5)
 
-    # Prompt file
-    logging.debug("Adding prompt file input field")
-    tk.Label(root, text="Prompt File:").pack(pady=5)
-    prompt_file_entry = tk.Entry(root, width=50)
-    prompt_file_entry.pack(pady=5)
-    prompt_file_entry.insert(0, default_prompt_file)
-    tk.Button(root, text="Browse...", command=lambda: select_prompt_file(prompt_file_entry)).pack(pady=5)
-
     # Executable path
     logging.debug("Adding executable path input field")
     tk.Label(root, text="Executable Path:").pack(pady=5)
@@ -95,7 +78,7 @@ def create_gui():
 
     # Install button
     logging.debug("Adding install button")
-    install_button = tk.Button(root, text="Install", command=lambda: run_installer(install_dir_entry.get(), prompt_file_entry.get(), executable_path_entry.get()))
+    install_button = tk.Button(root, text="Install", command=lambda: run_installer(install_dir_entry.get(), executable_path_entry.get()))
     install_button.pack(pady=20)
 
     logging.debug("Starting main GUI loop")
