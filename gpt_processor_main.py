@@ -14,7 +14,9 @@ import argparse
 import logging
 import sys
 import time
+import subprocess
 from concurrent.futures import ThreadPoolExecutor
+from tkinter import messagebox
 
 # Attempt to import required packages and handle missing dependencies
 try:
