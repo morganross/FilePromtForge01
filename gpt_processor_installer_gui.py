@@ -4,9 +4,9 @@ import subprocess
 import logging
 
 # Default values
-default_install_dir = "C:\upp\jimmy"
+default_install_dir = "C:\\upp\\jimmy"
 default_prompt_file = "default_prompt.txt"
-default_executable_path = "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py"
+default_executable_path = "C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py"
 
 # Set up logging
 logging.basicConfig(filename='installer_gui.log', level=logging.ERROR, 
