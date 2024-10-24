@@ -44,14 +44,11 @@ def run_installer(install_dir, executable_path):
 def run_test(install_dir, executable_path, prompt_file, output_dir):
     logging.debug(f"Starting run_test with install_dir={install_dir}, executable_path={executable_path}, prompt_file={prompt_file}, output_dir={output_dir}")
     try:
-        # Read the content of the prompt file
-        with open(prompt_file, 'r', encoding='utf-8') as file:
-            prompt_content = file.read()
-        
         # Construct the command to run the main script
         command = [
             'python', executable_path,
-            '--config', os.path.join(install_dir, 'default_config.yaml')
+            '--config', os.path.join(install_dir, 'default_config.yaml'),
+            '--prompt', prompt_file
         ]
         logging.debug(f"Running test command: {command}")
         result = subprocess.run(command, check=True, capture_output=True, text=True)
