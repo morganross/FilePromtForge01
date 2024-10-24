@@ -203,6 +203,59 @@ def process_file(input_file, file_handler, api_client, system_prompt, logger):
     except Exception as e:
         logger.error(f"Error processing file '{input_file}': {e}")
 
+def run_test(install_dir, executable_path, prompt_file, output_dir):
+    logging.debug(f"Starting run_test with install_dir={install_dir}, executable_path={executable_path}, prompt_file={prompt_file}, output_dir={output_dir}")
+    try:
+        input_dir = os.path.join(install_dir, 'input')
+        logging.debug(f"Input directory: {input_dir}")
+        
+        # Check if input directory exists
+        if not os.path.exists(input_dir):
+            logging.error(f"Input directory does not exist: {input_dir}")
+            messagebox.showerror("Error", f"Input directory does not exist: {input_dir}")
+            return
+        
+        # Log the contents of the input directory
+        input_files = os.listdir(input_dir)
+        logging.debug(f"Input directory contents: {input_files}")
+        
+        # Check if input directory is empty
+        if not input_files:
+            logging.error("Input directory is empty.")
+            messagebox.showerror("Error", "Input directory is empty.")
+            return
+
+        # Construct the command to run the main script
+        command = [
+            'python', executable_path,
+            '--config', os.path.join(install_dir, 'default_config.yaml'),
+            '--prompt', prompt_file,
+            '--input_dir', input_dir,
+            '--output_dir', output_dir
+        ]
+        logging.debug(f"Running test command: {command}")
+        result = subprocess.run(command, check=True, capture_output=True, text=True)
+        logging.debug(f"Test command output: {result.stdout}")
+        logging.debug(f"Test command error (if any): {result.stderr}")
+
+        # Save the response to the output directory
+        output_file = os.path.join(output_dir, 'test_output.txt')
+        with open(output_file, 'w', encoding='utf-8') as file:
+            file.write(result.stdout)
+        
+        # Display the response in the GUI
+        messagebox.showinfo("Test Response", result.stdout)
+    except subprocess.CalledProcessError as e:
+        error_message = f"Test failed: {e}"
+        logging.error(error_message)
+        logging.debug(f"Test command output: {e.stdout}")
+        logging.debug(f"Test command error: {e.stderr}")
+        messagebox.showerror("Error", error_message)
+    except Exception as e:
+        error_message = f"An error occurred: {e}"
+        logging.error(error_message)
+        messagebox.showerror("Error", error_message)
+
 # CLI main function
 def main():
     parser = argparse.ArgumentParser(description='GPT Processor Main Application')
