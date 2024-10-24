@@ -1,1 +1,8 @@
 2024-10-23 19:40:21,617 - INFO - Installation Directory: C:\Program Files\GPTProcessor
+2024-10-23 19:45:31,397 - INFO - Installation Directory: C:\Program Files\GPTProcessor
+2024-10-23 19:49:05,557 - INFO - Installation Directory: C:\upp\JOE
+2024-10-23 19:49:05,558 - INFO - Created necessary directories.
+2024-10-23 19:49:05,559 - INFO - Created default prompt file at 'C:\upp\JOE\prompts\standard_prompt.txt'.
+2024-10-23 19:49:05,561 - INFO - Copied main executable to 'C:\upp\JOE'.
+2024-10-23 19:49:05,562 - INFO - Created default configuration file at 'C:\upp\JOE\config.ini'.
+2024-10-23 19:49:05,562 - INFO - GPT Processor installation completed successfully.
