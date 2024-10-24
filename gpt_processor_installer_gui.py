@@ -4,6 +4,7 @@ import subprocess
 import logging
 import os
 from datetime import datetime
+from pathlib import Path
 
 # Default values
 default_install_dir = "C:\\upp\\jimmy"
@@ -63,6 +64,23 @@ def select_executable_path(entry):
     if path:
         entry.delete(0, tk.END)
         entry.insert(0, path)
+
+# Update the create_config_file function to create a default configuration file
+def create_config_file(install_dir, prompt_file, executable_path):
+    config_content = f"""
+prompts_dir: {install_dir}/prompts
+input_dir: {install_dir}/input
+output_dir: {install_dir}/output
+openai:
+  api_key: YOUR_OPENAI_API_KEY
+  model: gpt-4
+  temperature: 0.7
+  max_tokens: 1500
+"""
+    config_path = Path(install_dir) / 'default_config.yaml'
+    with open(config_path, 'w') as config_file:
+        config_file.write(config_content)
+    logging.info(f"Configuration file created at {config_path}")
 
 def create_gui():
     logging.debug("Creating main GUI window")
