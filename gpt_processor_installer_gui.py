@@ -14,7 +14,7 @@ logging.basicConfig(filename='installer_gui.log', level=logging.ERROR,
 
 def run_installer(install_dir, prompt_file, executable_path):
     try:
-        subprocess.run(['python', 'gpt_processor_installer.py', '--install-dir', install_dir, '--prompt-file', prompt_file, '--executable-path', executable_path], check=True)
+        subprocess.run(['python', 'gpt_processor_installer.py', '--install-dir', install_dir, '--prompt-file', prompt_file, '--main_executable', executable_path], check=True)
         messagebox.showinfo("Success", "Installation completed successfully.")
     except subprocess.CalledProcessError as e:
         error_message = f"Installation failed: {e}"
