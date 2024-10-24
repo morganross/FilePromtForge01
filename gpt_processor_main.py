@@ -15,10 +15,12 @@ import logging
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
+from tkinter import messagebox
+import openai
+from openai.error import RateLimitError, OpenAIError
 
 # Attempt to import required packages and handle missing dependencies
 try:
-    import openai
     import yaml
     from dotenv import load_dotenv
 except ImportError as e:
@@ -162,9 +164,9 @@ class APIClient:
                     max_tokens=self.max_tokens
                 )
                 return response.choices[0].message['content'].strip()
-            except openai.error.RateLimitError as e:
+            except RateLimitError as e:
                 logger.error(f"Rate limit exceeded on attempt {attempt}: {e}")
-            except openai.error.OpenAIError as e:
+            except OpenAIError as e:
                 logger.error(f"OpenAI API error on attempt {attempt}: {e}")
             except Exception as e:
                 logger.error(f"Unexpected error on attempt {attempt}: {e}")
@@ -256,7 +258,6 @@ def run_test(install_dir, executable_path, prompt_file, output_dir):
         logging.error(error_message)
         messagebox.showerror("Error", error_message)
 
-# CLI main function
 def main():
     parser = argparse.ArgumentParser(description='GPT Processor Main Application')
     parser.add_argument('--config', type=str, help='Path to configuration file.')
@@ -317,6 +318,7 @@ def main():
 
     # List input files
     input_files = file_handler.list_input_files()
+    logger.debug(f"Input files: {input_files}")
     if not input_files:
         logger.info("No input files found. Exiting.")
         sys.exit(0)
