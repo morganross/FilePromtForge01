@@ -52,7 +52,8 @@ def run_test(install_dir, executable_path, prompt_file, output_dir):
         command = [
             'python', executable_path,
             '--config', os.path.join(install_dir, 'default_config.yaml'),
-            '--prompt_file', prompt_file
+            '--prompt', prompt_file,
+            '--output_dir', output_dir
         ]
         logging.debug(f"Running test command: {command}")
         result = subprocess.run(command, check=True, capture_output=True, text=True)
