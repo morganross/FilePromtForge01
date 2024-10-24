@@ -1,0 +1,29 @@
+2024-10-23 22:37:38,756 - DEBUG - Starting the installer GUI script
+2024-10-23 22:37:38,756 - DEBUG - Creating main GUI window
+2024-10-23 22:37:38,799 - DEBUG - Adding install directory input field
+2024-10-23 22:37:38,801 - DEBUG - Adding executable path input field
+2024-10-23 22:37:38,801 - DEBUG - Adding install button
+2024-10-23 22:37:38,801 - DEBUG - Adding test button
+2024-10-23 22:37:38,801 - DEBUG - Starting main GUI loop
+2024-10-23 22:37:40,747 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 22:37:40,747 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 22:37:40,856 - DEBUG - Command output: 
+2024-10-23 22:37:40,856 - DEBUG - Command error (if any): 2024-10-23 22:37:40,840 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-23 22:37:40,856 - INFO - Created necessary directories.
+2024-10-23 22:37:40,856 - INFO - Created default prompt file at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-23 22:37:40,856 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-23 22:37:40,856 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-23 22:37:43,200 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 22:37:43,200 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']
+2024-10-23 22:37:44,369 - ERROR - Test failed: Command '['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']' returned non-zero exit status 1.
+2024-10-23 22:37:44,370 - DEBUG - Test command output: 
+2024-10-23 22:37:44,370 - DEBUG - Test command error: Traceback (most recent call last):
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 276, in <module>
+    main()
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 219, in main
+    log_level = logging.DEBUG if args.verbose else logging.INFO
+                                 ^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'verbose'
+
