@@ -210,12 +210,12 @@ def process_file(input_file, file_handler, api_client, system_prompt, logger):
 def main():
     parser = argparse.ArgumentParser(description='GPT Processor Main Application')
     parser.add_argument('--config', type=str, help='Path to configuration file.')
+    parser.add_argument('--log_file', type=str, help='Path to log file.')
+    parser.add_argument('--verbose', action='store_true', help='Enable verbose logging.')
+
     args = parser.parse_args()
 
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    config_file = args.config if args.config else os.path.join(base_dir, 'default_config.yaml')
-
-    # Set log level based on verbosity
+    # Set log level based on the argument, default to INFO if unspecified
     log_level = logging.DEBUG if args.verbose else logging.INFO
 
     # Setup logger
@@ -223,7 +223,7 @@ def main():
 
     # Load configuration
     try:
-        config = Config(config_file, base_dir=base_dir)
+        config = Config(args.config, base_dir=os.path.dirname(os.path.abspath(__file__)))
     except Exception as e:
         logger.error(e)
         sys.exit(1)
@@ -272,5 +272,5 @@ def main():
         for input_file in input_files:
             executor.submit(process_file, input_file, file_handler, api_client, system_prompt, logger)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
