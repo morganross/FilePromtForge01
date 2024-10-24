@@ -208,20 +208,12 @@ def process_file(input_file, file_handler, api_client, system_prompt, logger):
 
 # CLI main function
 def main():
-    parser = argparse.ArgumentParser(description='ChatGPT Prompt Processor')
-    parser.add_argument('--prompt', type=str, nargs='+', help='Specify one or more prompt files to use.')
-    parser.add_argument('--input_dir', type=str, help='Specify input directory.')
-    parser.add_argument('--output_dir', type=str, help='Specify output directory.')
-    parser.add_argument('--model', type=str, help='Specify the OpenAI model to use.')
-    parser.add_argument('--temperature', type=float, help='Set the temperature for the API.')
-    parser.add_argument('--max_tokens', type=int, help='Set the maximum tokens for the API.')
+    parser = argparse.ArgumentParser(description='GPT Processor Main Application')
     parser.add_argument('--config', type=str, help='Path to configuration file.')
-    parser.add_argument('--log_file', type=str, help='Path to the log file.')
-    parser.add_argument('--verbose', action='store_true', help='Enable verbose logging.')
     args = parser.parse_args()
 
-    # Determine base directory
     base_dir = os.path.dirname(os.path.abspath(__file__))
+    config_file = args.config if args.config else os.path.join(base_dir, 'default_config.yaml')
 
     # Set log level based on verbosity
     log_level = logging.DEBUG if args.verbose else logging.INFO
@@ -231,7 +223,7 @@ def main():
 
     # Load configuration
     try:
-        config = Config(args.config, base_dir=base_dir)
+        config = Config(config_file, base_dir=base_dir)
     except Exception as e:
         logger.error(e)
         sys.exit(1)
