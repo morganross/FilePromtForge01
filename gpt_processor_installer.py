@@ -9,7 +9,7 @@ Features:
 - Optionally adds the installation directory to the system PATH for easy access.
 - Provides user-friendly logging and error handling.
 """
-# tests
+
 import os
 import sys
 import argparse
