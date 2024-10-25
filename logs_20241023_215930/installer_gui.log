@@ -1,0 +1,36 @@
+2024-10-23 21:59:30,497 - DEBUG - Starting the installer GUI script
+2024-10-23 21:59:30,497 - DEBUG - Creating main GUI window
+2024-10-23 21:59:30,540 - DEBUG - Adding install directory input field
+2024-10-23 21:59:30,542 - DEBUG - Adding executable path input field
+2024-10-23 21:59:30,542 - DEBUG - Adding install button
+2024-10-23 21:59:30,543 - DEBUG - Starting main GUI loop
+2024-10-23 21:59:32,923 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 21:59:32,923 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 21:59:33,032 - DEBUG - Command output: 
+2024-10-23 21:59:33,032 - DEBUG - Command error (if any): 2024-10-23 21:59:33,016 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-23 21:59:33,016 - INFO - Created necessary directories.
+2024-10-23 21:59:33,016 - INFO - Created default prompt file at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-23 21:59:33,016 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-23 21:59:33,016 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-23 22:08:48,056 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 22:08:48,056 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 22:08:48,181 - DEBUG - Command output: 
+2024-10-23 22:08:48,181 - DEBUG - Command error (if any): 2024-10-23 22:08:48,168 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-23 22:08:48,168 - INFO - Created necessary directories.
+2024-10-23 22:08:48,168 - INFO - Default prompt file already exists at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-23 22:08:48,168 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-23 22:08:48,168 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-23 22:24:20,358 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 22:24:20,358 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 22:24:20,467 - DEBUG - Command output: 
+2024-10-23 22:24:20,467 - DEBUG - Command error (if any): 2024-10-23 22:24:20,452 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-23 22:24:20,452 - INFO - Created necessary directories.
+2024-10-23 22:24:20,452 - INFO - Created default prompt file at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-23 22:24:20,467 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-23 22:24:20,467 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+

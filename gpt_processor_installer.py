@@ -19,7 +19,7 @@ import subprocess
 from pathlib import Path
 
 # Setting up the logger
-def setup_logger(log_level=logging.INFO, log_file=None):
+def setup_logger(log_level=logging.INFO, log_file='gpt_processor_install.log'):
     logger = logging.getLogger('gpt_processor_installer')
     logger.setLevel(log_level)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -31,11 +31,10 @@ def setup_logger(log_level=logging.INFO, log_file=None):
     logger.addHandler(ch)
 
     # File handler
-    if log_file:
-        fh = logging.FileHandler(log_file)
-        fh.setLevel(log_level)
-        fh.setFormatter(formatter)
-        logger.addHandler(fh)
+    fh = logging.FileHandler(log_file)
+    fh.setLevel(log_level)
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
 
     return logger
 
@@ -75,6 +74,24 @@ def copy_main_executable(source_path, dest_dir, logger):
         logger.error(f"Failed to copy main executable: {e}")
         sys.exit(1)
 
+# Function to create a default configuration file
+def create_default_config(install_dir, logger):
+    config_path = os.path.join(install_dir, 'config.ini')
+    default_config = (
+        "[DEFAULT]\n"
+        "LogLevel = INFO\n"
+        "PromptFile = prompts/standard_prompt.txt\n"
+        "InputDir = input\n"
+        "OutputDir = output\n"
+    )
+    try:
+        with open(config_path, 'w', encoding='utf-8') as file:
+            file.write(default_config)
+        logger.info(f"Created default configuration file at '{config_path}'.")
+    except Exception as e:
+        logger.error(f"Failed to create default configuration file: {e}")
+        sys.exit(1)
+
 # Function to add directory to system PATH (Windows)
 def add_to_system_path_windows(directory, logger):
     try:
@@ -110,6 +127,23 @@ def add_to_system_path_unix(directory, shell, logger):
         logger.error(f"Failed to add '{directory}' to system PATH: {e}")
         sys.exit(1)
 
+# Function to create configuration file
+def create_config_file(install_dir, prompt_file, executable_path):
+    config_content = f"""
+prompts_dir: {install_dir}/prompts
+input_dir: {install_dir}/input
+output_dir: {install_dir}/output
+openai:
+  api_key: YOUR_OPENAI_API_KEY
+  model: gpt-4
+  temperature: 0.7
+  max_tokens: 1500
+"""
+    config_path = Path(install_dir) / 'default_config.yaml'
+    with open(config_path, 'w') as config_file:
+        config_file.write(config_content)
+    logging.info(f"Configuration file created at {config_path}")
+
 # Detect operating system
 def detect_os():
     if sys.platform.startswith('win'):
@@ -125,7 +159,7 @@ def detect_os():
 def main():
     parser = argparse.ArgumentParser(description='GPT Processor Installer')
     parser.add_argument('--install_dir', type=str, default=None, help='Directory to install GPT Processor.')
-    parser.add_argument('--main_executable', type=str, required=True, help='Path to the main executable to install.')
+    parser.add_argument('--main_executable', type=str, required=True, help='Path to the main executable.')
     parser.add_argument('--add_to_path', action='store_true', help='Add the installation directory to system PATH.')
     parser.add_argument('--log_file', type=str, help='Path to the log file.')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging.')
@@ -134,8 +168,9 @@ def main():
     # Set log level based on verbosity
     log_level = logging.DEBUG if args.verbose else logging.INFO
 
-    # Setup logger
-    logger = setup_logger(log_level=log_level, log_file=args.log_file)
+    # Setup logger with default log file if not specified
+    log_file = args.log_file if args.log_file else 'gpt_processor_install.log'
+    logger = setup_logger(log_level=log_level, log_file=log_file)
 
     # Determine installation directory
     if args.install_dir:
@@ -164,8 +199,13 @@ def main():
 
     # Copy main executable
     main_executable_source = os.path.abspath(args.main_executable)
-    main_executable_dest = os.path.join(install_dir, os.path.basename(args.main_executable))
+    main_executable_dest = os.path.join(install_dir, os.path.basename(main_executable_source))
     copy_main_executable(main_executable_source, install_dir, logger)
+
+
+    # Create configuration file
+    create_config_file(install_dir, prompts_dir, main_executable_dest)
+
 
     # Add to system PATH if requested
     if args.add_to_path:

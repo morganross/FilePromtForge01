@@ -1,0 +1,19 @@
+2024-10-23 23:01:09,689 - DEBUG - Starting the installer GUI script
+2024-10-23 23:01:09,689 - DEBUG - Creating main GUI window
+2024-10-23 23:01:09,732 - DEBUG - Adding install directory input field
+2024-10-23 23:01:09,734 - DEBUG - Adding executable path input field
+2024-10-23 23:01:09,734 - DEBUG - Adding install button
+2024-10-23 23:01:09,734 - DEBUG - Adding test button
+2024-10-23 23:01:09,734 - DEBUG - Starting main GUI loop
+2024-10-23 23:01:12,284 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:01:12,284 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']
+2024-10-23 23:01:13,424 - ERROR - Test failed: Command '['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']' returned non-zero exit status 1.
+2024-10-23 23:01:13,424 - DEBUG - Test command output: 
+2024-10-23 23:01:13,424 - DEBUG - Test command error: Traceback (most recent call last):
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 276, in <module>
+    main()
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 232, in main
+    prompt_files = args.prompt if args.prompt else ['standard_prompt.txt']
+                                  ^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'prompt'
+

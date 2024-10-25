@@ -1,0 +1,41 @@
+2024-10-23 23:11:45,154 - DEBUG - Starting the installer GUI script
+2024-10-23 23:11:45,154 - DEBUG - Creating main GUI window
+2024-10-23 23:11:45,198 - DEBUG - Adding install directory input field
+2024-10-23 23:11:45,200 - DEBUG - Adding executable path input field
+2024-10-23 23:11:45,200 - DEBUG - Adding install button
+2024-10-23 23:11:45,200 - DEBUG - Adding test button
+2024-10-23 23:11:45,200 - DEBUG - Starting main GUI loop
+2024-10-23 23:11:47,266 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 23:11:47,266 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 23:11:47,376 - DEBUG - Command output: 
+2024-10-23 23:11:47,376 - DEBUG - Command error (if any): 2024-10-23 23:11:47,360 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-23 23:11:47,360 - INFO - Created necessary directories.
+2024-10-23 23:11:47,360 - INFO - Default prompt file already exists at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-23 23:11:47,360 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-23 23:11:47,360 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-23 23:11:49,101 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:11:49,101 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']
+2024-10-23 23:11:50,241 - ERROR - Test failed: Command '['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']' returned non-zero exit status 1.
+2024-10-23 23:11:50,241 - DEBUG - Test command output: 
+2024-10-23 23:11:50,241 - DEBUG - Test command error: Traceback (most recent call last):
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 276, in <module>
+    main()
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 232, in main
+    prompt_files = args.prompt if args.prompt else ['standard_prompt.txt']
+                                  ^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'prompt'
+
+2024-10-23 23:12:05,423 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:12:05,423 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']
+2024-10-23 23:12:06,579 - ERROR - Test failed: Command '['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml']' returned non-zero exit status 1.
+2024-10-23 23:12:06,579 - DEBUG - Test command output: 
+2024-10-23 23:12:06,579 - DEBUG - Test command error: Traceback (most recent call last):
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 276, in <module>
+    main()
+  File "C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py", line 232, in main
+    prompt_files = args.prompt if args.prompt else ['standard_prompt.txt']
+                                  ^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'prompt'
+

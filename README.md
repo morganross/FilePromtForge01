@@ -1,4 +1,68 @@
-# FilePromtForge01
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--config: Path to the configuration file.
+
+Usage: --config <path_to_config_file>
+Example: --config config.yaml
+--prompt: List of prompt files.
+
+Usage: --prompt <prompt_file1> <prompt_file2> ...
+Example: --prompt prompt1.txt prompt2.txt
+--input_dir: Directory for input files.
+
+Usage: --input_dir <path_to_input_directory>
+Example: --input_dir ./input
+--output_dir: Directory for output files.
+
+Usage: --output_dir <path_to_output_directory>
+Example: --output_dir ./output
+--model: OpenAI model to use.
+
+Usage: --model <model_name>
+Example: --model gpt-4
+--temperature: Temperature setting for the OpenAI model.
+
+Usage: --temperature <temperature_value>
+Example: --temperature 0.7
+--max_tokens: Maximum number of tokens for the OpenAI model.
+
+Usage: --max_tokens <max_tokens_value>
+Example: --max_tokens 1500
+--verbose: Enable verbose logging.
+
+Usage: --verbose
+Example: --verbose
+--log_file: Path to log file.
+
+Usage: --log_file <path_to_log_file>
+Example: --log_file gpt_processor.log# FilePromtForge01
 # GPT Processor Application
 
 ## Overview
@@ -75,5 +139,4 @@ openai:
   temperature: 0.7
   max_tokens: 1500
 # FilePromptForge01
-
 
