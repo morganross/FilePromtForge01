@@ -127,6 +127,23 @@ def add_to_system_path_unix(directory, shell, logger):
         logger.error(f"Failed to add '{directory}' to system PATH: {e}")
         sys.exit(1)
 
+# Function to create configuration file
+def create_config_file(install_dir, prompt_file, executable_path):
+    config_content = f"""
+prompts_dir: {install_dir}/prompts
+input_dir: {install_dir}/input
+output_dir: {install_dir}/output
+openai:
+  api_key: YOUR_OPENAI_API_KEY
+  model: gpt-4
+  temperature: 0.7
+  max_tokens: 1500
+"""
+    config_path = Path(install_dir) / 'default_config.yaml'
+    with open(config_path, 'w') as config_file:
+        config_file.write(config_content)
+    logging.info(f"Configuration file created at {config_path}")
+
 # Detect operating system
 def detect_os():
     if sys.platform.startswith('win'):
@@ -185,8 +202,10 @@ def main():
     main_executable_dest = os.path.join(install_dir, os.path.basename(main_executable_source))
     copy_main_executable(main_executable_source, install_dir, logger)
 
-    # Create default configuration file
-    create_default_config(install_dir, logger)
+
+    # Create configuration file
+    create_config_file(install_dir, prompts_dir, main_executable_dest)
+
 
     # Add to system PATH if requested
     if args.add_to_path:

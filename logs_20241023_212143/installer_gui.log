@@ -1,0 +1,19 @@
+2024-10-23 21:21:43,817 - DEBUG - Starting the installer GUI script
+2024-10-23 21:21:43,818 - DEBUG - Creating main GUI window
+2024-10-23 21:21:43,855 - DEBUG - Adding install directory input field
+2024-10-23 21:21:43,855 - DEBUG - Adding prompt file input field
+2024-10-23 21:21:43,855 - DEBUG - Adding executable path input field
+2024-10-23 21:21:43,855 - DEBUG - Adding install button
+2024-10-23 21:21:43,855 - DEBUG - Starting main GUI loop
+2024-10-23 21:21:45,107 - DEBUG - Opening file selection dialog for executable path
+2024-10-23 21:21:48,139 - DEBUG - Selected executable path: 
+2024-10-23 21:21:48,623 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, prompt_file=default_prompt.txt, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 21:21:48,623 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install-dir', 'C:\\upp\\jimmy', '--prompt-file', 'default_prompt.txt', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 21:21:48,740 - ERROR - Installation failed: Command '['python', 'gpt_processor_installer.py', '--install-dir', 'C:\\upp\\jimmy', '--prompt-file', 'default_prompt.txt', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']' returned non-zero exit status 2.
+2024-10-23 21:21:48,740 - DEBUG - Command output: 
+2024-10-23 21:21:48,740 - DEBUG - Command error: usage: gpt_processor_installer.py [-h] [--install_dir INSTALL_DIR]
+                                  --main_executable MAIN_EXECUTABLE
+                                  [--add_to_path] [--log_file LOG_FILE]
+                                  [--verbose]
+gpt_processor_installer.py: error: unrecognized arguments: --install-dir C:\upp\jimmy --prompt-file default_prompt.txt
+

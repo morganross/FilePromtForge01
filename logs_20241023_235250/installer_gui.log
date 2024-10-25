@@ -1,0 +1,56 @@
+
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-23 23:52:58,511 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:52:58,511 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-23 23:52:59,692 - DEBUG - Test command output: 
+2024-10-23 23:52:59,692 - DEBUG - Test command error (if any): 2024-10-23 23:52:59,623 - gpt_processor - INFO - No input files found. Exiting.
+
+2024-10-23 23:53:01,794 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:53:01,794 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-23 23:53:02,964 - DEBUG - Test command output: 
+2024-10-23 23:53:02,964 - DEBUG - Test command error (if any): 2024-10-23 23:53:02,901 - gpt_processor - INFO - No input files found. Exiting.
+
+2024-10-23 23:59:30,800 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:59:30,800 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-23 23:59:32,261 - DEBUG - Test command output: 
+2024-10-23 23:59:32,261 - DEBUG - Test command error (if any): 
+2024-10-23 23:59:33,832 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:59:33,832 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-23 23:59:35,029 - DEBUG - Test command output: 
+2024-10-23 23:59:35,029 - DEBUG - Test command error (if any): 
+2024-10-24 00:06:02,274 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-24 00:06:02,275 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-24 00:06:03,466 - DEBUG - Test command output: 
+2024-10-24 00:06:03,466 - DEBUG - Test command error (if any): 2024-10-24 00:06:03,386 - gpt_processor - ERROR - Error processing file 'C:\upp\jimmy/input\standard_prompt.txt': module 'openai' has no attribute 'error'
+
+2024-10-24 00:06:05,724 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-24 00:06:05,724 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-24 00:06:06,932 - DEBUG - Test command output: 
+2024-10-24 00:06:06,932 - DEBUG - Test command error (if any): 2024-10-24 00:06:06,853 - gpt_processor - ERROR - Error processing file 'C:\upp\jimmy/input\standard_prompt.txt': module 'openai' has no attribute 'error'
+
+2024-10-24 00:06:08,767 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-24 00:06:08,767 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-24 00:06:09,970 - DEBUG - Test command output: 
+2024-10-24 00:06:09,970 - DEBUG - Test command error (if any): 2024-10-24 00:06:09,889 - gpt_processor - ERROR - Error processing file 'C:\upp\jimmy/input\standard_prompt.txt': module 'openai' has no attribute 'error'
+
+2024-10-24 00:06:42,622 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-24 00:06:42,622 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-24 00:06:42,732 - DEBUG - Command output: 
+2024-10-24 00:06:42,732 - DEBUG - Command error (if any): 2024-10-24 00:06:42,719 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-24 00:06:42,721 - INFO - Created necessary directories.
+2024-10-24 00:06:42,721 - INFO - Created default prompt file at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-24 00:06:42,722 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-24 00:06:42,723 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-24 00:06:44,984 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-24 00:06:44,984 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-24 00:06:46,151 - DEBUG - Test command output: 
+2024-10-24 00:06:46,151 - DEBUG - Test command error (if any): 2024-10-24 00:06:46,077 - gpt_processor - INFO - No input files found. Exiting.
+
+2024-10-24 00:06:47,893 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-24 00:06:47,894 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-24 00:06:49,043 - DEBUG - Test command output: 
+2024-10-24 00:06:49,043 - DEBUG - Test command error (if any): 2024-10-24 00:06:48,963 - gpt_processor - INFO - No input files found. Exiting.
+

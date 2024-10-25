@@ -1,0 +1,25 @@
+2024-10-23 23:20:33,320 - DEBUG - Starting the installer GUI script
+2024-10-23 23:20:33,320 - DEBUG - Creating main GUI window
+2024-10-23 23:20:33,366 - DEBUG - Adding install directory input field
+2024-10-23 23:20:33,368 - DEBUG - Adding executable path input field
+2024-10-23 23:20:33,368 - DEBUG - Adding install button
+2024-10-23 23:20:33,368 - DEBUG - Adding test button
+2024-10-23 23:20:33,369 - DEBUG - Starting main GUI loop
+2024-10-23 23:20:35,530 - DEBUG - Starting run_installer with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py
+2024-10-23 23:20:35,530 - DEBUG - Running command: ['python', 'gpt_processor_installer.py', '--install_dir', 'C:\\upp\\jimmy', '--main_executable', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py']
+2024-10-23 23:20:35,640 - DEBUG - Command output: 
+2024-10-23 23:20:35,640 - DEBUG - Command error (if any): 2024-10-23 23:20:35,624 - INFO - Installation Directory: C:\upp\jimmy
+2024-10-23 23:20:35,624 - INFO - Created necessary directories.
+2024-10-23 23:20:35,624 - INFO - Created default prompt file at 'C:\upp\jimmy\prompts\standard_prompt.txt'.
+2024-10-23 23:20:35,640 - INFO - Copied main executable to 'C:\upp\jimmy'.
+2024-10-23 23:20:35,640 - INFO - GPT Processor installation completed successfully.
+INFO:gpt_processor_installer:GPT Processor installation completed successfully.
+
+2024-10-23 23:20:37,763 - DEBUG - Starting run_test with install_dir=C:\upp\jimmy, executable_path=C:\upp\ui branch\FilePromtForge01\gpt_processor_main.py, prompt_file=C:\upp\jimmy\prompts\standard_prompt.txt, output_dir=C:\upp\jimmy\output
+2024-10-23 23:20:37,763 - DEBUG - Running test command: ['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']
+2024-10-23 23:20:39,005 - ERROR - Test failed: Command '['python', 'C:\\upp\\ui branch\\FilePromtForge01\\gpt_processor_main.py', '--config', 'C:\\upp\\jimmy\\default_config.yaml', '--prompt', 'C:\\upp\\jimmy\\prompts\\standard_prompt.txt']' returned non-zero exit status 2.
+2024-10-23 23:20:39,005 - DEBUG - Test command output: 
+2024-10-23 23:20:39,005 - DEBUG - Test command error: usage: gpt_processor_main.py [-h] [--config CONFIG] [--log_file LOG_FILE]
+                             [--verbose]
+gpt_processor_main.py: error: unrecognized arguments: --prompt C:\upp\jimmy\prompts\standard_prompt.txt
+
