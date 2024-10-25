@@ -8,7 +8,8 @@ Features:
 - Save AI-generated responses to output directory.
 - Comprehensive logging to console and optional log file.
 """
-
+# Testing
+# messing
 import os
 import argparse
 import logging
@@ -192,6 +193,24 @@ def create_default_prompt(prompts_dir):
         except Exception as e:
             logger.error(f"Error creating default prompt file '{default_prompt_path}': {e}")
 
+# Function to check if a path is a directory
+def is_directory(path):
+    return os.path.isdir(path)
+
+# Function to list files in a directory
+def list_files_in_directory(directory):
+    return [os.path.join(directory, f) for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+
+# Function to create prompts for each file in a directory
+def create_prompts(base_content, directory):
+    file_list = list_files_in_directory(directory)
+    prompts = []
+    for file in file_list:
+        file_content = read_file(file)  # Function to read the content of each file in the directory
+        prompt = f"{base_content}\n\n{file_content}"
+        prompts.append(prompt)
+    return prompts
+
 # Main processing function
 def process_file(input_file, file_handler, api_client, system_prompt, logger):
     user_prompt = file_handler.read_file(input_file)
@@ -259,7 +278,9 @@ def run_test(install_dir, executable_path, prompt_file, output_dir):
         messagebox.showerror("Error", error_message)
 
 def main():
+
     parser = argparse.ArgumentParser(description='GPT Processor Main Application')
+
     parser.add_argument('--config', type=str, help='Path to configuration file.')
     parser.add_argument('--log_file', type=str, help='Path to log file.')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging.')
@@ -290,11 +311,11 @@ def main():
 
     # Override config with CLI arguments if provided
     prompt_files = args.prompt if args.prompt else ['standard_prompt.txt']
-    input_dir = args.input_dir if args.input_dir else config.input_dir
     output_dir = args.output_dir if args.output_dir else config.output_dir
     model = args.model if args.model else config.openai.model
     temperature = args.temperature if args.temperature else config.openai.temperature
     max_tokens = args.max_tokens if args.max_tokens else config.openai.max_tokens
+
 
     # Log paths and check if they exist
     logger.debug(f"Prompt files: {prompt_files}")
@@ -303,6 +324,7 @@ def main():
     for path in [input_dir, output_dir] + prompt_files:
         if not os.path.exists(path):
             logger.error(f"Path does not exist: {path}")
+
 
     # Ensure necessary directories exist
     ensure_directory(input_dir)
@@ -316,6 +338,7 @@ def main():
     file_handler = FileHandler(input_dir, output_dir)
     api_client = APIClient(config.openai.api_key, model, temperature, max_tokens)
 
+
     # List input files
     input_files = file_handler.list_input_files()
     logger.debug(f"Input files: {input_files}")
@@ -327,6 +350,7 @@ def main():
     with ThreadPoolExecutor(max_workers=min(5, len(input_files))) as executor:
         for input_file in input_files:
             executor.submit(process_file, os.path.join(input_dir, input_file), file_handler, api_client, system_prompt, logger)
+
 
 if __name__ == "__main__":
     main()

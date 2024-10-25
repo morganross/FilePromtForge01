@@ -26,6 +26,7 @@
 
 
 
+
 --config: Path to the configuration file.
 
 Usage: --config <path_to_config_file>
@@ -138,5 +139,4 @@ openai:
   temperature: 0.7
   max_tokens: 1500
 # FilePromptForge01
-
 
