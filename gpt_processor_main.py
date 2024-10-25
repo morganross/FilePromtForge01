@@ -8,7 +8,8 @@ Features:
 - Save AI-generated responses to output directory.
 - Comprehensive logging to console and optional log file.
 """
-
+# Testing
+# messing
 import os
 import argparse
 import logging
@@ -196,6 +197,24 @@ def create_default_prompt(prompts_dir):
         with open(default_prompt_path, 'w', encoding='utf-8') as file:
             file.write(default_prompt)
 
+# Function to check if a path is a directory
+def is_directory(path):
+    return os.path.isdir(path)
+
+# Function to list files in a directory
+def list_files_in_directory(directory):
+    return [os.path.join(directory, f) for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+
+# Function to create prompts for each file in a directory
+def create_prompts(base_content, directory):
+    file_list = list_files_in_directory(directory)
+    prompts = []
+    for file in file_list:
+        file_content = read_file(file)  # Function to read the content of each file in the directory
+        prompt = f"{base_content}\n\n{file_content}"
+        prompts.append(prompt)
+    return prompts
+
 # Main processing function
 def process_file(input_file, file_handler, api_client, system_prompt, logger):
     try:
@@ -210,7 +229,7 @@ def process_file(input_file, file_handler, api_client, system_prompt, logger):
 def main():
     parser = argparse.ArgumentParser(description='ChatGPT Prompt Processor')
     parser.add_argument('--prompt', type=str, nargs='+', help='Specify one or more prompt files to use.')
-    parser.add_argument('--input_dir', type=str, help='Specify input directory.')
+    parser.add_argument('--input', type=str, required=True, help='Specify input file or directory.')
     parser.add_argument('--output_dir', type=str, help='Specify output directory.')
     parser.add_argument('--model', type=str, help='Specify the OpenAI model to use.')
     parser.add_argument('--temperature', type=float, help='Set the temperature for the API.')
@@ -238,7 +257,6 @@ def main():
 
     # Override config with CLI arguments if provided
     prompt_files = args.prompt if args.prompt else ['standard_prompt.txt']
-    input_dir = args.input_dir if args.input_dir else config.input_dir
     output_dir = args.output_dir if args.output_dir else config.output_dir
     model = args.model if args.model else config.openai.model
     temperature = args.temperature if args.temperature else config.openai.temperature
@@ -246,7 +264,6 @@ def main():
 
     # Ensure directories exist
     ensure_directory(output_dir)
-    ensure_directory(input_dir)
     ensure_directory(config.prompts_dir)
 
     # Create default prompt if not exists
@@ -268,17 +285,27 @@ def main():
         logger.error(e)
         sys.exit(1)
 
-    # Process input files
-    input_files = file_handler.list_input_files()
-    if not input_files:
-        logger.info(f"No input files found in '{input_dir}'.")
-        sys.exit(0)
+    # Check if input is a directory or file and process accordingly
+    input_path = args.input
+    if is_directory(input_path):
+        base_content = read_file(prompt_files[0])  # Assuming the first prompt file is the base file
+        prompts = create_prompts(base_content, input_path)
+        for prompt in prompts:
+            # Process each prompt
+            input_file = os.path.join(input_path, os.path.basename(prompt))
+            process_file(input_file, file_handler, api_client, system_prompt, logger)
+    else:
+        # Process single file
+        input_files = file_handler.list_input_files()
+        if not input_files:
+            logger.info(f"No input files found in '{input_dir}'.")
+            sys.exit(0)
 
-    # Use ThreadPoolExecutor for concurrent processing
-    max_workers = min(5, len(input_files))  # Limit number of threads
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        for input_file in input_files:
-            executor.submit(process_file, input_file, file_handler, api_client, system_prompt, logger)
+        # Use ThreadPoolExecutor for concurrent processing
+        max_workers = min(5, len(input_files))  # Limit number of threads
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            for input_file in input_files:
+                executor.submit(process_file, input_file, file_handler, api_client, system_prompt, logger)
 
 if __name__ == '__main__':
     main()
